@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 16px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.button:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.info {
+  font-size: 14px;
+  color: var(--text-secondary);
+  min-width: 120px;
+  text-align: center;
+}
