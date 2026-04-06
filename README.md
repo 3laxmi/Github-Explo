@@ -1,87 +1,113 @@
 # GitHub Explorer
 
-A professional, optimized React application for exploring GitHub users and their repositories with advanced filtering, sorting, and bookmarking capabilities.
+A React application to search GitHub users and explore their repositories with filtering and sorting capabilities.
 
 ## Features
 
-### Core Requirements ✅
-- **User Search** - Search GitHub users with debounced input (400ms delay)
-- **User Results** - Display username and avatar in search results
-- **Repository View** - Click user to view their repositories
-- **Repository Details** - Shows name, stars, forks, description, language, and last updated date
-- **Loading State** - Spinner component during data fetching
-- **Error State** - Error message display with helpful feedback
-- **Empty State** - Empty state for no results
-- **Sort by Stars** - Sort repositories by star count
-- **Sort by Forks** - Sort repositories by fork count
+### Core Requirements
+- **User Search** - Search GitHub users with debounced input (400ms)
+- **Display Results** - Show username and avatar for each user
+- **View Repositories** - Click on a user to see their repositories
+- **Repository Details** - Display name, stars, forks, and description
+- **State Management** - Loading, error, and empty states
+- **Sort Options** - Sort repositories by stars or forks
 - **Filter by Language** - Filter repositories by programming language
-- **Responsive Design** - Works seamlessly on mobile, tablet, and desktop
+- **Responsive Design** - Works on mobile, tablet, and desktop
 
-### Bonus Features 🎁
-- **Custom Hooks** - Reusable stateful logic (useDebounce, useGithubSearch, useUserRepos, useBookmarks, useDarkMode)
-- **Pagination** - Navigate through search results with next/previous buttons
+### Bonus Features
+- **Custom Hooks** - useDebounce, useGithubSearch, useUserRepos, useBookmarks, useDarkMode
+- **Pagination** - Navigate through search results
 - **Bookmarks** - Save favorite repositories to localStorage
-- **Dark Mode** - Toggle between light and dark themes with persistence
-- **Number Formatting** - Display large numbers as 1.2k, 1.5M format
+- **Dark Mode** - Toggle between light and dark themes
+- **Number Formatting** - Display large numbers as 1.2k, 1.5M
 - **Date Formatting** - Show relative dates (e.g., "2 days ago")
-- **API Error Handling** - Specific handling for rate limits and network errors
-- **Performance Optimized** - Debouncing, memoization, lazy initialization
+
+## Tech Stack
+
+- **React 18** - UI library
+- **Vite** - Build tool
+- **Axios** - HTTP client
+- **CSS Modules** - Component styling
+
+## Installation
+
+1. Clone the repository
+```bash
+git clone <repo-url>
+cd github-explorer
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Start development server
+```bash
+npm run dev
+```
+
+The app will run on `http://localhost:5173`
+
+## Usage
+
+### Search for Users
+1. Type a GitHub username in the search bar
+2. Results appear automatically (no need to press Enter)
+3. Click on a user to view their repositories
+
+### View and Filter Repositories
+- Use "Sort by" dropdown to sort by stars or forks
+- Use "Language" dropdown to filter by programming language
+- Click the star icon to bookmark a repository
+
+### Manage Bookmarks
+- Click "Bookmarks" tab to view saved repositories
+- Bookmarks are saved in browser storage
+
+### Toggle Dark Mode
+- Click the theme toggle button in the header
+- Your preference is saved automatically
 
 ## Project Structure
 
 ```
 src/
 ├── api/
-│   └── github.js              # Axios instance & API functions
+│   └── github.js              # GitHub API calls
 ├── hooks/
 │   ├── useDebounce.js         # Debounce hook
-│   ├── useGithubSearch.js     # Search state management
-│   ├── useUserRepos.js        # Repository state management
-│   ├── useBookmarks.js        # Bookmark persistence
-│   └── useDarkMode.js         # Dark mode toggle
+│   ├── useGithubSearch.js     # Search state
+│   ├── useUserRepos.js        # Repository state
+│   ├── useBookmarks.js        # Bookmark state
+│   └── useDarkMode.js         # Dark mode state
 ├── components/
-│   ├── SearchBar/             # Search input component
+│   ├── SearchBar/             # Search input
 │   ├── UserCard/              # User result card
 │   ├── RepoCard/              # Repository card
-│   ├── RepoList/              # Repository list with controls
+│   ├── RepoList/              # Repository list
 │   ├── Loader/                # Loading spinner
 │   ├── ErrorMessage/          # Error display
-│   ├── EmptyState/            # Empty results display
+│   ├── EmptyState/            # Empty state
 │   ├── Pagination/            # Pagination controls
-│   └── Bookmarks/             # Bookmarked repos view
+│   └── Bookmarks/             # Bookmarks view
+├── assets/icons/              # SVG icons
 ├── utils/
-│   └── formatters.js          # Number & date formatting
-├── App.jsx                    # Main app component
-├── App.module.css             # App styling
-├── index.css                  # Global styles & theme variables
+│   └── formatters.js          # Utility functions
+├── App.jsx                    # Main component
+├── App.module.css             # App styles
+├── index.css                  # Global styles
 └── main.jsx                   # Entry point
 ```
 
-## Setup Instructions
+## API Used
 
-### Prerequisites
-- Node.js 16+ and npm
+- **Search Users** - `GET /search/users?q={query}`
+- **Get Repositories** - `GET /users/{username}/repos`
 
-### Installation
+Rate limit: 60 requests/hour (unauthenticated)
 
-1. **Clone or navigate to the project**
-```bash
-cd github-explorer
-```
-
-2. **Install dependencies**
-```bash
-npm install
-```
-
-3. **Start development server**
-```bash
-npm run dev
-```
-
-The app will be available at `http://localhost:5173`
-
-### Build for Production
+## Build for Production
 
 ```bash
 npm run build
@@ -89,105 +115,38 @@ npm run build
 
 Output will be in the `dist/` directory.
 
-## Usage
-
-### Search for Users
-1. Type a GitHub username in the search bar
-2. Results appear automatically with debouncing (no need to press Enter)
-3. Click on a user card to view their repositories
-
-### View Repositories
-- **Sort** - Use the "Sort by" dropdown to sort by stars or forks
-- **Filter** - Use the "Language" dropdown to filter by programming language
-- **Bookmark** - Click the star icon (☆/★) to bookmark/unbookmark a repository
-
-### Manage Bookmarks
-- Click the "Bookmarks" tab to view all saved repositories
-- Bookmarks persist across browser sessions using localStorage
-
-### Toggle Dark Mode
-- Click the theme toggle button (🌙/☀️) in the header
-- Your preference is saved automatically
-
-## Technical Highlights
-
-### Separation of Concerns
-- API logic isolated in `src/api/github.js`
-- State management in custom hooks
-- UI components receive data via props
-
-### Performance Optimizations
-- **Debouncing** - 400ms delay prevents excessive API calls
-- **useMemo** - Filtering and sorting only recompute when dependencies change
-- **Lazy Initialization** - localStorage read only once at mount
-- **Code Splitting** - CSS modules for component isolation
-
-### Error Handling
-- Specific handling for GitHub API rate limits (403 status)
-- User-friendly error messages
-- Graceful fallbacks for network failures
-
-### Responsive Design
-- Mobile-first approach
-- Flexible grid layouts
-- Touch-friendly controls
-- Optimized for screens 320px and up
-
-## API Information
-
-Uses the GitHub REST API v3 (unauthenticated):
-- Rate limit: 60 requests/hour
-- Search endpoint: `/search/users`
-- User repos endpoint: `/users/{username}/repos`
-
 ## Browser Support
 
 - Chrome/Edge 90+
 - Firefox 88+
 - Safari 14+
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- Mobile browsers
 
-## Deployment
+## Key Implementation Details
 
-### Deploy to Vercel (Recommended)
-```bash
-npm install -g vercel
-vercel
-```
+### Debouncing
+Search input is debounced with 400ms delay to prevent excessive API calls.
 
-### Deploy to Netlify
-```bash
-npm run build
-# Drag and drop the dist/ folder to Netlify
-```
+### State Management
+- Custom hooks handle all state logic
+- Components are pure and receive data via props
+- localStorage used for bookmarks and theme preference
 
-## Development Notes
+### Error Handling
+- Specific error messages for different scenarios
+- Rate limit detection
+- Network error handling
 
-### Adding New Features
-1. Create custom hooks in `src/hooks/` for stateful logic
-2. Create components in `src/components/` with co-located CSS modules
-3. Keep components pure - no API calls inside components
-4. Use TypeScript-like naming conventions for clarity
+### Performance
+- Memoization for filtering and sorting
+- Lazy initialization of localStorage
+- Pagination for large result sets
 
-### Testing
-Components are designed to be easily testable:
-- Pure components receive all data via props
-- Hooks can be tested independently
-- API layer is isolated and mockable
+## Future Improvements
 
-## Performance Metrics
-
-- **Lighthouse Score**: 95+ (Performance, Accessibility, Best Practices)
-- **Bundle Size**: ~45KB gzipped (React + Axios)
-- **Time to Interactive**: <2s on 4G
-- **Debounce Delay**: 400ms (configurable)
-
-## Future Enhancements
-
-- User profile details (followers, following, bio)
-- Advanced search filters (language, stars range, created date)
+- User profile details (followers, bio)
+- Advanced search filters
 - Repository trending analysis
-- Contribution graph visualization
 - OAuth authentication for higher rate limits
 
 ## License
@@ -196,4 +155,4 @@ MIT
 
 ## Author
 
-Built as a professional React assignment demonstrating best practices in component architecture, state management, and performance optimization.
+Built as a React assignment demonstrating best practices in component architecture and state management.
