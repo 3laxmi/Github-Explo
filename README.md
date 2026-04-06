@@ -149,10 +149,4 @@ Search input is debounced with 400ms delay to prevent excessive API calls.
 - Repository trending analysis
 - OAuth authentication for higher rate limits
 
-## License
 
-MIT
-
-## Author
-
-Built as a React assignment demonstrating best practices in component architecture and state management.
