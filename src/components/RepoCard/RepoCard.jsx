@@ -15,10 +15,12 @@ export function RepoCard({ repo, isBookmarked, onBookmark }) {
           title={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
           aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
         >
+          {/* SVG icon changes appearance based on bookmark state */}
           <StarIcon size={20} filled={isBookmarked} color="var(--accent-color)" />
         </button>
       </div>
 
+      {/* Only show description if it exists (some repos don't have one) */}
       {repo.description && <p className={styles.description}>{repo.description}</p>}
 
       <div className={styles.meta}>
@@ -30,6 +32,7 @@ export function RepoCard({ repo, isBookmarked, onBookmark }) {
           <span className={styles.icon}>🍴</span>
           {formatNumber(repo.forks_count)}
         </span>
+        {/* Language badge only shows if repo has a language (some don't) */}
         {repo.language && (
           <span className={styles.language}>
             <span className={styles.dot}></span>

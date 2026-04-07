@@ -2,10 +2,6 @@ import { useState, useEffect } from 'react'
 import { searchUsers } from '../api/github'
 import { useDebounce } from './useDebounce'
 
-/**
- * Custom hook for managing GitHub user search
- * Handles debouncing, pagination, and error states
- */
 export function useGithubSearch() {
   const [query, setQuery] = useState('')
   const [users, setUsers] = useState([])
@@ -14,15 +10,14 @@ export function useGithubSearch() {
   const [page, setPage] = useState(1)
   const [totalCount, setTotalCount] = useState(0)
   
-  // Debounce search query to avoid excessive API calls
+  // Debounce prevents hammering the API on every keystroke
   const debouncedQuery = useDebounce(query, 400)
 
-  // Reset to page 1 when search query changes
+  // Reset pagination when user types a new search term
   useEffect(() => {
     setPage(1)
   }, [debouncedQuery])
 
-  // Fetch users when debounced query or page changes
   useEffect(() => {
     if (!debouncedQuery.trim()) {
       setUsers([])
@@ -36,11 +31,11 @@ export function useGithubSearch() {
     searchUsers(debouncedQuery, page)
       .then(data => {
         setUsers(data.items || [])
-        // Cap at 1000 to avoid excessive pagination
+        // GitHub caps search results at 1000 total, so we limit pagination accordingly
         setTotalCount(Math.min(data.total_count || 0, 1000))
       })
       .catch(err => {
-        // Handle specific API errors
+        // Different error codes need different user messages
         if (err.response?.status === 403) {
           setError('GitHub API rate limit exceeded. Please try again in 1 hour.')
         } else if (err.response?.status === 422) {

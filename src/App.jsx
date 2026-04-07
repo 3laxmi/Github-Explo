@@ -14,15 +14,20 @@ import { useDarkMode } from './hooks/useDarkMode'
 import styles from './App.module.css'
 
 export default function App() {
+  // Track which user is selected to show their repos instead of search results
   const [selectedUser, setSelectedUser] = useState(null)
+  // Track whether to show bookmarks tab or search results
   const [showBookmarks, setShowBookmarks] = useState(false)
+  
   const { dark, toggle: toggleDarkMode } = useDarkMode()
   const { query, setQuery, users, loading, error, page, setPage, totalCount } = useGithubSearch()
+  // Only fetch repos when a user is selected (selectedUser?.login will be null otherwise)
   const { repos, loading: reposLoading, error: reposError, sortBy, setSortBy, filterLang, setFilterLang, languages } = useUserRepos(selectedUser?.login)
   const { bookmarks, toggle: toggleBookmark, isBookmarked } = useBookmarks()
 
   const handleUserSelect = (user) => {
     setSelectedUser(user)
+    // Close bookmarks tab when viewing a user's repos
     setShowBookmarks(false)
   }
 
@@ -48,6 +53,7 @@ export default function App() {
 
       <main className={styles.main}>
         <div className={styles.container}>
+          {/* Show search interface or user's repos based on selection */}
           {!selectedUser ? (
             <>
               <div className={styles.searchSection}>

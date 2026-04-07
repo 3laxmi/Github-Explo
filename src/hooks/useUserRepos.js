@@ -1,10 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { getUserRepos } from '../api/github'
 
-/**
- * Custom hook for fetching and managing user repositories
- * Handles sorting, filtering, and error states
- */
 export function useUserRepos(username) {
   const [repos, setRepos] = useState([])
   const [loading, setLoading] = useState(false)
@@ -12,7 +8,6 @@ export function useUserRepos(username) {
   const [sortBy, setSortBy] = useState('stars')
   const [filterLang, setFilterLang] = useState('')
 
-  // Fetch repos when username changes
   useEffect(() => {
     if (!username) {
       setRepos([])
@@ -24,10 +19,11 @@ export function useUserRepos(username) {
 
     getUserRepos(username)
       .then(data => {
-        // Ensure data is an array
+        // API might return non-array in edge cases, so we normalize it
         setRepos(Array.isArray(data) ? data : [])
       })
       .catch(err => {
+        // Different error codes need different user messages
         if (err.response?.status === 403) {
           setError('GitHub API rate limit exceeded. Please try again in 1 hour.')
         } else if (err.response?.status === 404) {
@@ -42,29 +38,28 @@ export function useUserRepos(username) {
       .finally(() => setLoading(false))
   }, [username])
 
-  // Extract unique languages from repos
+  // Extract unique languages - useMemo prevents recalculating on every render
   const languages = useMemo(
     () => {
       const langs = repos
         .map(r => r.language)
-        .filter(Boolean) // Remove null/undefined
-        .filter((lang, idx, arr) => arr.indexOf(lang) === idx) // Remove duplicates
+        .filter(Boolean)
+        .filter((lang, idx, arr) => arr.indexOf(lang) === idx)
         .sort()
       return langs
     },
     [repos]
   )
 
-  // Apply filtering and sorting - only recompute when dependencies change
+  // Memoize filtered results so sorting/filtering doesn't trigger child re-renders unnecessarily
   const filtered = useMemo(() => {
     let result = repos
 
-    // Apply language filter
     if (filterLang) {
       result = result.filter(r => r.language === filterLang)
     }
 
-    // Apply sorting
+    // Sort in descending order (highest stars/forks first)
     result.sort((a, b) => {
       const key = sortBy === 'stars' ? 'stargazers_count' : 'forks_count'
       return (b[key] || 0) - (a[key] || 0)

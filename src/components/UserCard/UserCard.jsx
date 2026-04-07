@@ -7,7 +7,7 @@ export function UserCard({ user, onSelect }) {
       <div className={styles.info}>
         <h3 className={styles.username}>{user.login}</h3>
         <a href={user.html_url} target="_blank" rel="noopener noreferrer" className={styles.link}>
-          View Profile →
+          View Profile 
         </a>
       </div>
     </div>

@@ -1,12 +1,10 @@
-/**
- * Format large numbers to readable format
- * Examples: 1200 -> "1.2k", 1500000 -> "1.5M"
- */
 export function formatNumber(num) {
+  // Validate input to prevent NaN or unexpected values
   if (typeof num !== 'number' || num < 0) {
     return '0'
   }
 
+  // Use fixed(1) to show one decimal place for readability (1.2k vs 1.23k)
   if (num >= 1000000) {
     return (num / 1000000).toFixed(1) + 'M'
   }
@@ -18,10 +16,6 @@ export function formatNumber(num) {
   return num.toString()
 }
 
-/**
- * Format date to relative time format
- * Examples: "2 days ago", "3 weeks ago", "1 year ago"
- */
 export function formatDate(dateString) {
   if (!dateString) {
     return 'Unknown'
@@ -31,7 +25,7 @@ export function formatDate(dateString) {
     const date = new Date(dateString)
     const now = new Date()
 
-    // Handle invalid dates
+    // Invalid dates return NaN for getTime(), so we check for that
     if (isNaN(date.getTime())) {
       return 'Unknown'
     }
@@ -39,6 +33,7 @@ export function formatDate(dateString) {
     const diffMs = now - date
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
+    // Show relative dates instead of absolute dates (more user-friendly)
     if (diffDays === 0) return 'Today'
     if (diffDays === 1) return 'Yesterday'
     if (diffDays < 7) return `${diffDays} days ago`
@@ -47,6 +42,7 @@ export function formatDate(dateString) {
 
     return `${Math.floor(diffDays / 365)} years ago`
   } catch (err) {
+    // Date parsing might fail for unexpected formats
     console.warn('Error formatting date:', err)
     return 'Unknown'
   }

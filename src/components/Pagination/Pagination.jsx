@@ -12,7 +12,7 @@ export function Pagination({ page, totalCount, onPageChange, perPage = 12 }) {
         disabled={page === 1}
         className={styles.button}
       >
-        ← Previous
+         Previous
       </button>
 
       <span className={styles.info}>
@@ -24,7 +24,7 @@ export function Pagination({ page, totalCount, onPageChange, perPage = 12 }) {
         disabled={page === totalPages}
         className={styles.button}
       >
-        Next →
+        Next 
       </button>
     </div>
   )
