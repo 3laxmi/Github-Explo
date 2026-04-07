@@ -4,6 +4,8 @@ A React application to search GitHub users and explore their repositories with f
 
 ## Features
 
+## Live Link: https://github-explo.vercel.app/
+
 ### Core Requirements
 - **User Search** - Search GitHub users with debounced input (400ms)
 - **Display Results** - Show username and avatar for each user
