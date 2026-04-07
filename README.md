@@ -115,13 +115,6 @@ npm run build
 
 Output will be in the `dist/` directory.
 
-## Browser Support
-
-- Chrome/Edge 90+
-- Firefox 88+
-- Safari 14+
-- Mobile browsers
-
 ## Key Implementation Details
 
 ### Debouncing
@@ -142,11 +135,5 @@ Search input is debounced with 400ms delay to prevent excessive API calls.
 - Lazy initialization of localStorage
 - Pagination for large result sets
 
-## Future Improvements
-
-- User profile details (followers, bio)
-- Advanced search filters
-- Repository trending analysis
-- OAuth authentication for higher rate limits
 
 
