@@ -145,7 +145,7 @@ export default function App() {
       </main>
 
       <footer className={styles.footer}>
-        <p>GitHub Explorer © 2024 | Built with React & Vite</p>
+        <p>GitHub Explorer | Built with React & Vite</p>
       </footer>
     </div>
   )
